@@ -3,10 +3,19 @@ var db = new sql.Database(__dirname + "/db");
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var fs = require("fs");
 var request = require("request");
 var crypto = require("crypto");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.listen(8080);
+var conf;
+try {
+  conf = require("./config.json");
+} catch(e) {
+  conf = {};
+  conf.salt = crypto.randomBytes(128).toString("base64");
+  fs.writeFileSync(__dirname + "/config.json", JSON.stringify(conf));
+}
 
 var connections = {};
 
@@ -34,9 +43,12 @@ function addDevice(id, owner, payload, cb) {
   })
 }
 
+function hashPass(pass) {
+  return crypto.pbkdf2Sync(pass, conf.salt, 1000000, 512, "sha512");
+}
+
 function addUser(user, email, pass, cb) {
-  console.log("Adding user");
-  pass = crypto.pbkdf2Sync(pass, crypto.randomBytes(128), 1000, 512, "sha512");
+  pass = hashPass(pass);
   db.run("INSERT INTO users (user, email, password) VALUES($user, $email, $password)", { $user: user, $email: email, $password: pass }, function(err) {
     console.log(arguments);
     if(err) {
@@ -67,8 +79,14 @@ app.use("/update/:id", function(req, res) {
 });
 
 app.post("/login", function(req, res) {
+  db.all("SELECT * FROM users WHERE user = ? && password = ?", [req.body.user, hashPass(req.body.pass)], function(err, data) {
+    // check data, gen token and redirect
+  })
+});
 
-})
+app.post("/register", function(req, res) {
+  // add user, then login
+});
 
 app.get("/devices", function(req, res) {
   var id = req.cookie.id;
