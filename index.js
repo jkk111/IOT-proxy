@@ -27,9 +27,11 @@ function cleanSchedule() {
     process.nextTick(cleanSchedule);
   }, remaining);
 }
+
 db.serialize(function() {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, user TEXT UNIQUE, password TEXT)");
   db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT)");
+  db.run("CREATE TABLE IF NOT EXISTS tokens (id TEXT, user INT, expiry INT)");
 });
 
 function addDevice(id, owner, payload, cb) {
@@ -44,7 +46,10 @@ function addDevice(id, owner, payload, cb) {
 }
 
 function hashPass(pass) {
-  return crypto.pbkdf2Sync(pass, conf.salt, 1000000, 512, "sha512");
+  console.log("beginning hash");
+  pass = crypto.pbkdf2Sync(pass, conf.salt, 1000, 512, "sha512").toString("base64");
+  console.log("end hash");
+  return pass;
 }
 
 function addUser(user, email, pass, cb) {
@@ -78,14 +83,57 @@ app.use("/update/:id", function(req, res) {
   });
 });
 
+function login(user, cb) {
+  var expires = Date.now() + (60 * 60 * 1000);
+  var token = crypto.randomBytes(16).toString();
+  db.run("INSERT INTO tokens (id, user, expiry) VALUES(?, ?, ?)",
+          [user, token, expires], function(err, data) {
+            if(err) return console.error(err);
+            cb(token, expires);
+          })
+}
+
 app.post("/login", function(req, res) {
-  db.all("SELECT * FROM users WHERE user = ? && password = ?", [req.body.user, hashPass(req.body.pass)], function(err, data) {
+  db.all("SELECT * FROM users WHERE user = ?", [req.body.user], function(err, data) {
+    console.log("DB QUERY!", data, this);
     // check data, gen token and redirect
+    if(err) return console.error(err);
+    var user = data[0];
+    if(!user || user.password != hashPass(req.body.pass)) {
+      return res.status(401).send({ success: false })
+    }
+    login(user.id, function(token, expires) {
+      res.cookie("auth", token, new Date(expires)).send({ success: true });
+    })
   })
 });
 
+function register(user, pass, email, cb) {
+  pass = hashPass(pass);
+  console.log("here");
+  db.run("INSERT INTO users (email, user, password) VALUES(?,?,?)",
+          [email, user, pass],
+          function(err, data) {
+            if(err) return cb(false);
+            var insertId = this.lastID;
+            cb(insertId);
+          })
+}
+
 app.post("/register", function(req, res) {
   // add user, then login
+  if(req.body.user && req.body.pass && req.body.email) {
+    register(req.body.user, req.body.pass, req.body.email, function(id) {
+      if(id === false) {
+        return res.send({ success: false });
+      }
+      login(id, function(token, expires) {
+        res.cookie("auth", token, new Date(expires)).send({ success: true });
+      })
+    });
+  } else {
+    res.send("no");
+  }
 });
 
 app.get("/devices", function(req, res) {
