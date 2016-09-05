@@ -30,7 +30,7 @@ function cleanSchedule() {
 
 db.serialize(function() {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, user TEXT UNIQUE, password TEXT)");
-  db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT)");
+  db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT, updated INT)");
   db.run("CREATE TABLE IF NOT EXISTS tokens (id TEXT, user INT, expiry INT)");
 });
 
@@ -78,14 +78,16 @@ app.use("/update/:id", function(req, res) {
     connections[id] = (connections[id] || 0) + 1;
     row.request = JSON.parse(row.request);
     handleRequest(row, data, req.method, function(result) {
-      res.send(result);
+      db.run("UPDATE devices SET UPDATED = ? WHERE id = ?", [Date.now(), id], function() {
+        res.send(result);
+      })
     });
   });
 });
 
 function login(user, cb) {
   var expires = Date.now() + (60 * 60 * 1000);
-  var token = crypto.randomBytes(16).toString();
+  var token = crypto.randomBytes(16).toString("base64");
   db.run("INSERT INTO tokens (id, user, expiry) VALUES(?, ?, ?)",
           [user, token, expires], function(err, data) {
             if(err) return console.error(err);
