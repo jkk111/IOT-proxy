@@ -3,10 +3,12 @@ var db = new sql.Database(__dirname + "/db");
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 var fs = require("fs");
 var request = require("request");
 var crypto = require("crypto");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.listen(8080);
 var conf;
 try {
@@ -130,7 +132,7 @@ app.post("/register", function(req, res) {
         return res.send({ success: false });
       }
       login(id, function(token, expires) {
-        res.cookie("auth", token, new Date(expires)).send({ success: true });
+        res.cookie("id", id, new Date(expires)).cookie("auth", token, new Date(expires)).send({ success: true });
       })
     });
   } else {
@@ -146,6 +148,32 @@ app.get("/devices", function(req, res) {
     })
   } else {
     cb({ err: "NOCOOKIE" });
+  }
+});
+
+function ownsDevice(cookie, deviceId, cb) {
+  db.all("SELECT * FROM tokens WHERE id = ? & user = ?", [cookie.token, cookie.id], function(err, data) {
+    if(data && data.length > 0) {
+      db.all("SELECT * FROM devices WHERE owner = ? and id = ?", [cookie.id, deviceId], function(err, data) {
+        return cb(data || false);
+      })
+    } else {
+      return false;
+    }
+  })
+}
+
+app.get("/devices/:id", function() {
+  if(req.params.id) {
+    ownsDevice(req.cookie, req.params.id, function(success) {
+      if(success) {
+        res.send(success);
+      } else {
+        res.status(400).send("Bad Request");
+      }
+    })
+  } else {
+    res.status(400).send("Bad Request");
   }
 });
 
