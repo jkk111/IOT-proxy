@@ -140,6 +140,19 @@ app.post("/register", function(req, res) {
   }
 });
 
+app.post("/addDevice", function(req, res) {
+  var id = crypto.randomBytes(16).toString("base64");
+  var owner = req.cookie.id;
+  var payload = req.body.payload;
+  if(!owner || !payload) {
+    res.status(400).send({success: false});
+  } else {
+    addDevice(id, owner, payload, function() {
+      res.send({success: true});
+    })
+  }
+});
+
 app.get("/devices", function(req, res) {
   var id = req.cookie.id;
   if(id) {
