@@ -85,3 +85,4 @@ $RECYCLE.BIN/
 *.lnk
 db
 config.json
+static/bower_components

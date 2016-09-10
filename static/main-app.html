@@ -1,0 +1,27 @@
+<link rel="import" href="nav-head.html">
+<dom-module id="main-app">
+<style>
+  #page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+  }
+</style>
+<template>
+  <div id="page">
+    <nav-head></nav-head>
+  </div>
+</template>
+<script>
+  Polymer({
+    is: "main-app",
+    properties: {
+      devices: {
+        type: Object,
+        value: function() { return {}; }
+      }
+    }
+  });
+</script>
+</dom-module>

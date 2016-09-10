@@ -9,6 +9,7 @@ var request = require("request");
 var crypto = require("crypto");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static(__dirname + "/static"));
 app.listen(8080);
 var conf;
 try {
