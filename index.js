@@ -33,7 +33,7 @@ function cleanSchedule() {
 
 db.serialize(function() {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, user TEXT UNIQUE, password TEXT)");
-  db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT, updated INT)");
+  db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT, updated INT, hits INT)");
   db.run("CREATE TABLE IF NOT EXISTS tokens (id TEXT, user INT, expiry INT)");
 });
 
@@ -81,7 +81,7 @@ app.use("/update/:id", function(req, res) {
     connections[id] = (connections[id] || 0) + 1;
     row.request = JSON.parse(row.request);
     handleRequest(row, data, req.method, function(result) {
-      db.run("UPDATE devices SET UPDATED = ? WHERE id = ?", [Date.now(), id], function() {
+      db.run("UPDATE devices SET updated = ?, hits = ? WHERE id = ?", [Date.now(), id, (row.hits || 0) + 1], function() {
         res.send(result);
       })
     });

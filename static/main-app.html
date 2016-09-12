@@ -1,16 +1,26 @@
 <link rel="import" href="nav-head.html">
+<link rel="import" href="device-view.html">
+<link rel="import" href="nav-foot.html">
 <dom-module id="main-app">
 <style>
   #page {
+    display: inline-flex;
+    flex-direction: column;
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     background-color: red;
+    /*margin-bottom: 4.68em;*/
+  }
+  device-view {
+    flex-grow: 1;
   }
 </style>
 <template>
   <div id="page">
     <nav-head></nav-head>
+    <device-view></device-view>
+    <nav-foot></nav-foot>
   </div>
 </template>
 <script>

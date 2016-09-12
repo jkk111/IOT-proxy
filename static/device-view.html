@@ -1,0 +1,315 @@
+<dom-module id="device-view">
+  <template>
+    <style>
+      #devices {
+        width: 75%;
+        margin: 0 auto;
+        padding: 2em 0;
+      }
+      .device {
+        border-top: thin solid black;
+        font-size: 1.5em;
+      }
+      #device-table {
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+    <div id="devices">
+      <table id="device-table">
+        <tr>
+          <th>ID</th>
+          <th>Hits</th>
+          <th>Updated</th>
+          <th>Quota Remaining</th>
+          <th>Options</th>
+          <th>Remove</th>
+        </tr>
+        <template is="dom-repeat" items="{{devices}}">
+          <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.hits}}</td>
+            <td>{{prettyElapsedTime(item.lastUpdated)}}</td>
+            <td>{{calculateQuota(item.quota)}} / {{MAX_QUOTA}}</td>
+            <td>Options</td>
+            <td>Remove</td>
+          </tr>
+        </template>
+      </table>
+    </div>
+  </template>
+  <script>
+    const MS_IN_SEC = 1000;
+    const MS_IN_MIN = 60 * MS_IN_SEC;
+    const MS_IN_HOUR = 60 * MS_IN_MIN;
+    const MS_IN_DAY = 24 * MS_IN_HOUR;
+    Polymer({
+
+      is: 'device-view',
+
+      properties: {
+        MAX_QUOTA: {
+          type: Number,
+          value: 100
+        },
+        devices: {
+          type: Array,
+          value: [
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            },
+            {
+              id: '9187230',
+              hits: 8000,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
+            },
+            {
+              id: '91830',
+              hits: 400,
+              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
+            }
+          ]
+        }
+      },
+
+      calculateQuota: function(q) {
+        q = q || 0;
+        return this.MAX_QUOTA - q;
+      },
+
+      prettyElapsedTime: function(t) {
+        var elapsed = Date.now() - t;
+        var time = {};
+        time.Day = Math.floor(elapsed / MS_IN_DAY);
+        elapsed -= time.Day * MS_IN_DAY;
+        time.Hour = Math.floor(elapsed / MS_IN_HOUR);
+        elapsed -= time.Hour * MS_IN_HOUR;
+        time.Minute = Math.floor(elapsed / MS_IN_MIN);
+        return this.__prettyElapsedTimeString(time);
+      },
+
+      __prettyElapsedTimeString(o) {
+        var str = "";
+        var first = true;
+        if(Object.keys(o).length == 0) {
+          return "Just now";
+        }
+        for(var key in o) {
+          if(o[key] === 0) {
+            continue;
+          }
+          var item = o[key];
+          if(!first) str += " ";
+          var plural = item != 1;
+          str += `${item} ${key}`;
+          if(plural) {
+            str += "s";
+          }
+        }
+        return str;
+      }
+    })
+  </script>
+</dom-module>
