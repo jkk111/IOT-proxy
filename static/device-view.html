@@ -15,6 +15,7 @@
         text-align: center;
       }
     </style>
+    <iron-ajax auto url="/devices" on-response="receivedDevcies" on-error="errorFetchingDevices"></iron-ajax>
     <div id="devices">
       <table id="device-table">
         <tr>
@@ -51,226 +52,6 @@
         MAX_QUOTA: {
           type: Number,
           value: 100
-        },
-        devices: {
-          type: Array,
-          value: [
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            },
-            {
-              id: '9187230',
-              hits: 8000,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60).getTime()
-            },
-            {
-              id: '91830',
-              hits: 400,
-              lastUpdated: new Date(Date.now() - 1000 * 60 * 60 * 3).getTime()
-            }
-          ]
         }
       },
 
@@ -288,6 +69,15 @@
         elapsed -= time.Hour * MS_IN_HOUR;
         time.Minute = Math.floor(elapsed / MS_IN_MIN);
         return this.__prettyElapsedTimeString(time);
+      },
+
+      receivedDevcies: function(e, res) {
+        var devices = res.respnse;
+        this.set("devices", devices)
+      },
+
+      errorFetchingDevices: function() {
+        // TODO(jkk111): Add warning 
       },
 
       __prettyElapsedTimeString(o) {
