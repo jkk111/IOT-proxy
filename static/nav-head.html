@@ -12,6 +12,7 @@
     flex-grow: 1;
     padding: 0 20px;
     text-align: center;
+    cursor: pointer;
   }
 </style>
 <template>
@@ -19,7 +20,9 @@
     <div id="nav-bar">
       <template is="dom-repeat" items="{{navitems}}">
         <template is="dom-if" if="{{computeVisible(item.visible)}}">
-          <h1 class="nav-item">{{item.name}}</h1>
+          <h1 class="nav-item" data-index$="{{index}}" on-tap="changeTab">
+            {{item.name}}
+          </h1>
         </template>
       </template>
     </div>
@@ -34,6 +37,10 @@
     properties: {
       userid: {
         type: Number
+      },
+      currentTab: {
+        type: Number,
+        value: 0
       },
       loggedIn: {
         type: Number,
@@ -66,14 +73,21 @@
       }
     },
 
+    changeTab: function(e) {
+      console.log(e.target.dataset.index);
+    },
+
     computeVisible: function(visibility) {
-      console.log(visibility);
       return !visibility || visibility == ALWAYS || this.loggedIn && visibility == LOGGED_IN ||
              !this.loggedIn && visibility == LOGGED_OUT;
     },
 
     computeIsLoggedIn: function(id) {
       return id != null;
+    },
+
+    attached: function() {
+      console.log(this.currentTab);
     }
   });
 </script>

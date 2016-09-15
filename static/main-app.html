@@ -19,7 +19,9 @@
 <template>
   <div id="page">
     <nav-head></nav-head>
-    <device-view></device-view>
+    <template is="dom-if" if="{{active(activeTab, 'devices', true)}}">
+      <device-view></device-view>
+    </template>
     <nav-foot></nav-foot>
   </div>
 </template>
@@ -30,7 +32,15 @@
       devices: {
         type: Object,
         value: function() { return {}; }
+      },
+      loggedIn: {
+        type: Boolean,
+        value: false
       }
+    },
+
+    __computeActiveTab: function(tab, loginRequired) {
+      return tab == name && (!loginRequired || loginRequired && this.loggedIn);
     }
   });
 </script>
