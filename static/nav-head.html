@@ -38,14 +38,12 @@
       userid: {
         type: Number
       },
-      currentTab: {
+      activeTab: {
         type: Number,
         value: 0
       },
       loggedIn: {
-        type: Number,
-        value: false,
-        computed: "computeIsLoggedIn(userid)"
+        type: Boolean
       },
       navitems: {
         type: Array,
@@ -74,7 +72,8 @@
     },
 
     changeTab: function(e) {
-      console.log(e.target.dataset.index);
+      console.log(e);
+      this.activeTab = e.target.dataset.index;
     },
 
     computeVisible: function(visibility) {

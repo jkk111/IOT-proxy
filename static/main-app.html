@@ -12,16 +12,21 @@
     background-color: red;
     /*margin-bottom: 4.68em;*/
   }
-  device-view {
+  #content {
     flex-grow: 1;
   }
 </style>
 <template>
   <div id="page">
-    <nav-head></nav-head>
-    <template is="dom-if" if="{{active(activeTab, 'devices', true)}}">
-      <device-view></device-view>
-    </template>
+    <nav-head active-tab="{{activeTab}}" logged-in="{{loggedIn}}"></nav-head>
+    <div id="content">
+      <template is="dom-if" if="{{__computeActiveTab(activeTab, 0)}}">
+        <home-page></home-page>
+      </template>
+      <template is="dom-if" if="{{__computeActiveTab(activeTab, 2)}}">
+        <device-view></device-view>
+      </template>
+    </div>
     <nav-foot></nav-foot>
   </div>
 </template>
@@ -33,14 +38,21 @@
         type: Object,
         value: function() { return {}; }
       },
+
+      activeTab: {
+        type: Number,
+        value: 2
+      },
+
       loggedIn: {
         type: Boolean,
-        value: false
+        value: true
       }
     },
 
-    __computeActiveTab: function(tab, loginRequired) {
-      return tab == name && (!loginRequired || loginRequired && this.loggedIn);
+    __computeActiveTab: function(active, tab, loginRequired) {
+      console.log(active, tab);
+      return active == tab && (!loginRequired || loginRequired && this.loggedIn);
     }
   });
 </script>
