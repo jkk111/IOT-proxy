@@ -18,7 +18,7 @@
 </style>
 <template>
   <div id="page">
-    <nav-head active-tab="{{activeTab}}" logged-in="{{loggedIn}}"></nav-head>
+    <nav-head tabs="{{tabs}}" active-tab="{{activeTab}}" logged-in="{{loggedIn}}"></nav-head>
     <div id="content">
       <template is="dom-if" if="{{__computeActiveTab(activeTab, 0)}}">
         <home-page></home-page>
@@ -33,6 +33,7 @@
 <script>
   Polymer({
     is: "main-app",
+
     properties: {
       devices: {
         type: Object,
@@ -41,18 +42,58 @@
 
       activeTab: {
         type: Number,
-        value: 2
+        value: 400,
+        observer: 'printChanges'
       },
 
       loggedIn: {
         type: Boolean,
         value: true
+      },
+
+      tabs: {
+        type: Array,
+        value: [
+          {
+            name: "Home"
+          },
+          {
+            name: "Settings",
+            visible: LOGGED_IN
+          },
+          {
+            name: "Devices",
+            visible: LOGGED_IN
+          },
+          {
+            name: "Login",
+            visible: LOGGED_OUT
+          },
+          {
+            name: "Logout",
+            visible: LOGGED_IN
+          }
+        ]
       }
     },
 
+    printChanges: function(newvalue, old) {
+      console.info(`${old} => ${newvalue}`);
+    },
+
+    __computeTabLoginRequired(index) {
+      return this.tabs[index];
+    },
+
     __computeActiveTab: function(active, tab, loginRequired) {
-      console.log(active, tab);
-      return active == tab && (!loginRequired || loginRequired && this.loggedIn);
+      return active == tab;
+    },
+
+    attached: function() {
+      var self = this;
+      setInterval(function() {
+        console.log(self.activeTab)
+      }, 1000);
     }
   });
 </script>

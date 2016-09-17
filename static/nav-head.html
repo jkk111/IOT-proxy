@@ -18,7 +18,7 @@
 <template>
   <div id="nav-wrapper">
     <div id="nav-bar">
-      <template is="dom-repeat" items="{{navitems}}">
+      <template is="dom-repeat" items="{{tabs}}">
         <template is="dom-if" if="{{computeVisible(item.visible)}}">
           <h1 class="nav-item" data-index$="{{index}}" on-tap="changeTab">
             {{item.name}}
@@ -40,44 +40,22 @@
       },
       activeTab: {
         type: Number,
-        value: 0
+        notify: true
       },
       loggedIn: {
         type: Boolean
-      },
-      navitems: {
-        type: Array,
-        value: [
-          {
-            name: "Home"
-          },
-          {
-            name: "Settings",
-            visible: LOGGED_IN
-          },
-          {
-            name: "Devices",
-            visible: LOGGED_IN
-          },
-          {
-            name: "Login",
-            visible: LOGGED_OUT
-          },
-          {
-            name: "Logout",
-            visible: LOGGED_IN
-          }
-        ]
       }
     },
 
     changeTab: function(e) {
-      console.log(e);
-      this.activeTab = e.target.dataset.index;
+      console.log(this.activeTab);
+      this.set("activeTab", e.target.dataset.index);
+      console.log(this.activeTab);
     },
 
     computeVisible: function(visibility) {
-      return !visibility || visibility == ALWAYS || this.loggedIn && visibility == LOGGED_IN ||
+      return !visibility || visibility == ALWAYS || 
+             this.loggedIn && visibility == LOGGED_IN ||
              !this.loggedIn && visibility == LOGGED_OUT;
     },
 
@@ -86,7 +64,7 @@
     },
 
     attached: function() {
-      console.log(this.currentTab);
+      console.log(this.activeTab);
     }
   });
 </script>
