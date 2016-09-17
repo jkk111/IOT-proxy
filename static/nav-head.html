@@ -10,9 +10,17 @@
   }
   .nav-item {
     flex-grow: 1;
+    position: relative;
     padding: 0 20px;
     text-align: center;
     cursor: pointer;
+    background-color: grey;
+  }
+  .nav-item:focus, .active {
+    -webkit-filter: brightness(60%);
+  }
+  .nav-item:hover {
+    -webkit-filter: brightness(85%);
   }
 </style>
 <template>
@@ -20,7 +28,7 @@
     <div id="nav-bar">
       <template is="dom-repeat" items="{{tabs}}">
         <template is="dom-if" if="{{computeVisible(item.visible)}}">
-          <h1 class="nav-item" data-index$="{{index}}" on-tap="changeTab">
+          <h1 class$="{{computeNavClass(index, activeTab)}}" data-index$="{{index}}" on-tap="changeTab">
             {{item.name}}
           </h1>
         </template>
@@ -40,6 +48,7 @@
       },
       activeTab: {
         type: Number,
+        value: 0,
         notify: true
       },
       loggedIn: {
@@ -47,10 +56,16 @@
       }
     },
 
+    computeNavClass: function(index, activeTab) {
+      if(activeTab == index) {
+        return "nav-item active";
+      } else {
+        return "nav-item";
+      }
+    },
+
     changeTab: function(e) {
-      console.log(this.activeTab);
       this.set("activeTab", e.target.dataset.index);
-      console.log(this.activeTab);
     },
 
     computeVisible: function(visibility) {
@@ -61,10 +76,6 @@
 
     computeIsLoggedIn: function(id) {
       return id != null;
-    },
-
-    attached: function() {
-      console.log(this.activeTab);
     }
   });
 </script>
