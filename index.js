@@ -98,6 +98,21 @@ function login(user, cb) {
           })
 }
 
+function loggedIn(token, cb) {
+  if(!token) return cb(false);
+  db.all("SELECT * FROM token WHERE expiry > ? & id = ?", [ Date.now(), token ],
+    function(err, rows) {
+      if(err) cb(false);
+      cb(rows.length > 0);
+    })
+}
+
+app.get("/loggedin", function(req, res) {
+  loggedIn(req.cookie.token, function(success) {
+    res.send({ success: success });
+  })
+})
+
 app.post("/login", function(req, res) {
   db.all("SELECT * FROM users WHERE user = ?", [req.body.user], function(err, data) {
     console.log("DB QUERY!", data, this);
