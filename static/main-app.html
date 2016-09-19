@@ -17,6 +17,7 @@
   }
 </style>
 <template>
+  <iron-ajax auto url="/loggedin" method="GET" on-response="loggedInResponse"></iron-ajax>
   <div id="page">
     <nav-head tabs="{{tabs}}" active-tab="{{activeTab}}" logged-in="{{loggedIn}}"></nav-head>
     <div id="content">
@@ -75,6 +76,10 @@
           }
         ]
       }
+    },
+
+    loggedInResponse: function(e, detail) {
+      this.loggedIn = detail.response.success || false;
     },
 
     printChanges: function(newvalue, old) {
