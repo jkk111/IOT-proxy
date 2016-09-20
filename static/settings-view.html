@@ -1,0 +1,31 @@
+<link rel="stylesheet" type="text/css" href="bower_components/paper-input/paper-input.html">
+<dom-module id="settings-view">
+  <template>
+    <div id="settings">
+      <template is="dom-repeat" items="{{computeSettingsItems(settings)}}">
+        <div class="settings-item">
+          <div class="settings-name">{{item.name}}:</div>
+          <paper-input value="{{item.value}}"></paper-input>
+        </div>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: "settings-view",
+      properties: {
+        settings: {
+          type: Object,
+          value: {}
+        }
+      },
+
+      computeSettingsItems: function(settings) {
+        var arr = [];
+        for(var setting in settings) {
+          arr.push({ name: setting, value: settings[setting].value });
+        }
+      }
+    })
+  </script>
+</dom-module>
