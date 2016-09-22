@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="bower_components/paper-input/paper-input.html">
 <dom-module id="settings-view">
   <iron-ajax auto url="/settings" method="GET" on-response="settingsReceived"></iron-ajax>
-  <iron-ajax url="/settings" method="POST" body="{{settings}}" on-response="settingsUpdated"></iron-ajax>
+  <iron-ajax id="settingsUpdater" url="/settings" method="POST" body="{{settings}}" on-response="settingsUpdated"></iron-ajax>
   <template>
     <div id="settings">
       <template is="dom-repeat" items="{{computeSettingsItems(settings)}}">
@@ -24,6 +24,14 @@
 
       settingsReceived: function(e, detail) {
         this.set("settings", detail.response);
+      },
+
+      settingsUpdated: function() {
+
+      },
+
+      changed: function() {
+        this.$.settingsUpdater.generateRequest();
       },
 
       computeSettingsItems: function(settings) {
