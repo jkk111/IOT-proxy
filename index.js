@@ -33,6 +33,7 @@ function cleanSchedule() {
 
 db.serialize(function() {
   db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, user TEXT UNIQUE, password TEXT)");
+  db.run("CREATE TABKE IF NOT EXISTS settings (id INTEGER PRIMARY KEY, user INTEGER NOT NULL, data TEXT NOT NULL)")
   db.run("CREATE TABLE IF NOT EXISTS devices (id TEXT, owner INT, request TEXT, updated INT, hits INT)");
   db.run("CREATE TABLE IF NOT EXISTS tokens (id TEXT, user INT, expiry INT)");
 });
