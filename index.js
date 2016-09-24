@@ -49,6 +49,13 @@ function addDevice(id, owner, payload, cb) {
   })
 }
 
+app.get("/settings", function(req, res) {
+  var id = req.cookie.id;
+  db.all("SELECT * FROM settings WHERE user = $user", { $user: id }, function(err, rows) {
+    res.send(rows);
+  })
+})
+
 function hashPass(pass) {
   console.log("beginning hash");
   pass = crypto.pbkdf2Sync(pass, conf.salt, 1000, 512, "sha512").toString("base64");
