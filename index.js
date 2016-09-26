@@ -53,6 +53,27 @@ app.get("/settings", function(req, res) {
   var id = req.cookie.id;
   db.all("SELECT * FROM settings WHERE user = $user", { $user: id }, function(err, rows) {
     res.send(rows);
+  });
+});
+
+app.post("/settings", function(req, res) {
+  var id = req.cookie.id;
+  db.all("SELECT id FROM settings WHERE user = $user", {$user: id}, function(err, rows) {
+    if(rows && rows.length > 0) {
+      db.query("UPDATE settings SET payload = $payload WHERE id = $id", {
+        $id: rows[0].id,
+        $payload: JSON.stringify(req.body)
+      }, function(err, rows) {
+        res.sendStatus(200);
+      })
+    } else {
+      db.query("INSERT INTO settings (user, payload) VALUES($user, $payload)", {
+        $user: id,
+        $payload: JSON.stringify(req.body);
+      }, function(err, data) {
+        res.sendStatus(200);
+      })
+    }
   })
 })
 
