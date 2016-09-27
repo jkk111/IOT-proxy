@@ -1,6 +1,7 @@
 <link rel="import" href="nav-head.html">
 <link rel="import" href="device-view.html">
 <link rel="import" href="nav-foot.html">
+<link rel="import" href="settings-view.html">
 <dom-module id="main-app">
 <style>
   #page {
@@ -23,6 +24,9 @@
     <div id="content">
       <template is="dom-if" if="{{__computeActiveTab(activeTab, 0)}}">
         <home-page></home-page>
+      </template>
+      <template is="dom-if" if="{{__computeActiveTab(activeTab, 1)}}">
+        <settings-view></settings-view>
       </template>
       <template is="dom-if" if="{{__computeActiveTab(activeTab, 2)}}">
         <device-view></device-view>
