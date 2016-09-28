@@ -2,7 +2,7 @@
 <link rel="import" href="bower_components/paper-button/paper-button.html">
 <dom-module id="settings-view">
   <iron-ajax auto url="/settings" method="GET" on-response="settingsReceived"></iron-ajax>
-  <iron-ajax id="settingsUpdater" url="/settings" method="POST" body="{{settings}}" on-response="settingsUpdated"></iron-ajax>
+  <iron-ajax id="settingsUpdater" url="/settings" method="POST" body="{{settings}}" on-response="settingsUpdated" on-error="updateFailed"></iron-ajax>
   <template>
     <div id="settings">
       <template is="dom-repeat" items="{{computeSettingsItems(settings)}}">
@@ -15,6 +15,10 @@
     </div>
   </template>
   <script>
+    var colors = {
+      red: "#f00",
+      green: "#0f0"
+    }
     Polymer({
       is: "settings-view",
       properties: {
@@ -29,11 +33,19 @@
       },
 
       settingsUpdated: function() {
+        this.notifyUser("Settings Updated", colors.green);
+      },
 
+      updateFailed: function() {
+        this.notifyUser("Update Failed", colors.red);
       },
 
       changed: function() {
         this.$.settingsUpdater.generateRequest();
+      },
+
+      notifyUser: function(text, color) {
+        this.notifications.push({ text: text, color: color });
       },
 
       computeSettingsItems: function(settings) {

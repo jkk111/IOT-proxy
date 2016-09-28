@@ -26,7 +26,7 @@
         <home-page></home-page>
       </template>
       <template is="dom-if" if="{{__computeActiveTab(activeTab, 1)}}">
-        <settings-view></settings-view>
+        <settings-view notifications="{{notifications}}"></settings-view>
       </template>
       <template is="dom-if" if="{{__computeActiveTab(activeTab, 2)}}">
         <device-view></device-view>
@@ -43,6 +43,11 @@
       devices: {
         type: Object,
         value: function() { return {}; }
+      },
+
+      notifications: {
+        type: Array,
+        value: []
       },
 
       activeTab: {
