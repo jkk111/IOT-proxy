@@ -1,0 +1,30 @@
+<dom-module id="notification-view">
+  <style>
+    :host {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    #container {
+      width: 60%;
+      height: 100%;
+      overflow: hidden;
+    }
+    notification-item {
+      width: 100%;
+    }
+  </style>
+  <template>
+    <div id="container">
+      <template is="dom-repeat" items="{{notifications}}">
+        <notification-item text="{{item.text}}" color="{{item.color}}">
+        </notification-item>
+      </template>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      is: 'notification-view'
+    })
+  </script>
+</dom-module>
