@@ -2,6 +2,7 @@
 <link rel="import" href="device-view.html">
 <link rel="import" href="nav-foot.html">
 <link rel="import" href="settings-view.html">
+<link rel="import" href="notification-view.html">
 <dom-module id="main-app">
 <style>
   #page {
@@ -18,6 +19,7 @@
   }
 </style>
 <template>
+  <notification-view notifications="{{notifications}}"></notification-view>
   <iron-ajax auto url="/loggedin" method="GET" on-response="loggedInResponse"></iron-ajax>
   <div id="page">
     <nav-head tabs="{{tabs}}" active-tab="{{activeTab}}" logged-in="{{loggedIn}}"></nav-head>
