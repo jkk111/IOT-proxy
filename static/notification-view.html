@@ -24,7 +24,31 @@
   </template>
   <script>
     Polymer({
-      is: 'notification-view'
+      is: 'notification-view',
+      
+      properties: {
+        notifications: {
+          type: Array,
+          value: [],
+          observer: "notificationsChanged"
+        }
+      },
+
+      notificationsChanged: function() {
+        if(this.notifications.length == 0) {
+          return;
+        } else {
+          if(!this.notifyTimeout) {
+            var self = this;
+            this.notifyTimeout = setTimeout(function() {
+              self.notifyTimeout = null;
+              self.notifications.shift();
+            }, 1000);
+          }
+        }
+      }
+
+
     })
   </script>
 </dom-module>
