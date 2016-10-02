@@ -42,7 +42,7 @@
             var self = this;
             this.notifyTimeout = setTimeout(function() {
               self.notifyTimeout = null;
-              self.notifications.shift();
+              self.set("notifications", self.notifications.shift());
             }, 1000);
           }
         }
